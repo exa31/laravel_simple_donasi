@@ -35,7 +35,7 @@
                             {{ $donation->nama }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $donation->amount }}
+                            {{ \App\Helpers\FormatHelper::formatRupiah($donation->amount) }}
                         </td>
                         <td class="px-6 py-4">
                             {{ $donation->donation_type }}

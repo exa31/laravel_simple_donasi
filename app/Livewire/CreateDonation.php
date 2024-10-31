@@ -23,12 +23,22 @@ class CreateDonation extends Component
     }
     public function send()
     {
-        $this->validate([
-            'nama' => 'required',
-            'email' => 'required|email',
-            'amount' => 'required|numeric',
-            'donation_type' => 'required',
-        ]);
+        $this->validate(
+            [
+                'nama' => 'required',
+                'email' => 'required|email',
+                'amount' => 'required|numeric',
+                'donation_type' => 'required',
+            ],
+            [
+                'nama.required' => 'Nama tidak boleh kosong',
+                'email.required' => 'Email tidak boleh kosong',
+                'email.email' => 'Email tidak valid',
+                'amount.required' => 'Jumlah donasi tidak boleh kosong',
+                'amount.numeric' => 'Jumlah donasi harus berupa angka',
+                'donation_type.required' => 'Tipe donasi tidak boleh kosong',
+            ]
+        );
 
         $donasi = Donasi::create([
             'nama' => $this->nama,
@@ -46,7 +56,7 @@ class CreateDonation extends Component
 
         $this->snapToken = Snap::getSnapToken($params);
         $this->dispatch('snapTokenGenerated', $this->snapToken);
-        // return redirect('/');
+        $this->reset(['nama', 'email', 'amount', 'donation_type', 'catatan']);
     }
     public function render()
     {
